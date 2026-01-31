@@ -22,7 +22,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-const uploadsPath = path.join(process.cwd(), 'uploads');
+const uploadsPath = path.join(__dirname, 'uploads'); 
 app.use('/uploads', express.static(uploadsPath));
 
 console.log('Imagens sendo servidas de:', uploadsPath);
