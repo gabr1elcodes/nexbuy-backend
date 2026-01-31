@@ -1,4 +1,3 @@
-// src/routes/auth.controller.js
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../users/user.model');
@@ -13,7 +12,6 @@ if (!JWT_SECRET) {
   throw new Error('Missing JWT_SECRET environment variable');
 }
 
-// ---------------------- REGISTER ----------------------
 const register = async (req, res, next) => {
   try {
     const parsed = registerSchema.safeParse(req.body);
@@ -54,7 +52,6 @@ const register = async (req, res, next) => {
   }
 };
 
-// ---------------------- LOGIN ----------------------
 const login = async (req, res, next) => {
   try {
     const parsed = loginSchema.safeParse(req.body);
@@ -100,7 +97,6 @@ const login = async (req, res, next) => {
   }
 };
 
-// ---------------------- GOOGLE LOGIN ----------------------
 const googleLogin = async (req, res, next) => {
   try {
     const { token } = req.body;
@@ -109,7 +105,6 @@ const googleLogin = async (req, res, next) => {
       return res.status(400).json({ message: 'Token do Google não fornecido' });
     }
 
-    // 🔐 Validação REAL com o Google
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -127,10 +122,9 @@ const googleLogin = async (req, res, next) => {
       return res.status(400).json({ message: 'E-mail não encontrado no Google' });
     }
 
-    // 🔍 Buscar usuário pelo email
+
     let user = await User.findOne({ email });
 
-    // 🆕 Criar usuário se não existir
     if (!user) {
       user = await User.create({
         name,
@@ -140,7 +134,6 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    // 🔑 Gerar JWT do seu sistema (mesmo padrão do login normal)
     const jwtToken = jwt.sign(
       {
         userId: user._id,
@@ -168,7 +161,6 @@ const googleLogin = async (req, res, next) => {
   }
 };
 
-// ---------------------- FORGOT PASSWORD ----------------------
 const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
