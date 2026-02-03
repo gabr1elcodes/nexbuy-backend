@@ -2,7 +2,6 @@ const Order = require('./order.model');
 const Product = require('../products/product.model');
 const { z } = require('zod');
 
-// ---------------------- SCHEMA DE VALIDAÇÃO ----------------------
 const orderItemSchema = z.object({
   product: z.string().min(1),
   quantity: z.number().int().positive(),
@@ -12,7 +11,6 @@ const createOrderSchema = z.object({
   items: z.array(orderItemSchema).min(1),
 });
 
-// ---------------------- CRIAR PEDIDO ----------------------
 const createOrder = async (req, res, next) => {
   try {
     const parsed = createOrderSchema.safeParse(req.body);
@@ -69,7 +67,6 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-// ---------------------- LISTAR PEDIDOS DO USUÁRIO ----------------------
 const getMyOrders = async (req, res, next) => {
   try {
     const userId = req.user.id;

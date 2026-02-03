@@ -1,17 +1,15 @@
 const User = require('./user.model');
 const { userUpdateSchema } = require('../../validators/userValidator');
 
-// ---------------------- LISTAR TODOS OS USUÁRIOS ----------------------
 const getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find().select('-password'); // nunca retornar senha
+    const users = await User.find().select('-password');
     res.json(users);
   } catch (error) {
     next(error);
   }
 };
 
-// ---------------------- BUSCAR USUÁRIO POR ID ----------------------
 const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -24,10 +22,8 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-// ---------------------- ATUALIZAR USUÁRIO ----------------------
 const updateUser = async (req, res, next) => {
   try {
-    // Validação dos dados recebidos
     const parsed = userUpdateSchema.safeParse(req.body);
     if (!parsed.success) {
       return res.status(400).json({
@@ -46,7 +42,6 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-// ---------------------- DELETAR USUÁRIO ----------------------
 const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -58,7 +53,6 @@ const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
-
 
 const getMe = async (req, res, next) => {
   try {
